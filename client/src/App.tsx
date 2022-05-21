@@ -1,12 +1,17 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import Landing from './pages/Landing';
+import { ThemeProvider } from '@mui/material';
+
+import theme from './store/theme/theme';
 
 function App() {
   return (
     <div className="App">
-      <Typography variant="h3" component="h1">
-        jobify
-      </Typography>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Landing />
+      </ThemeProvider>
     </div>
   );
 }
