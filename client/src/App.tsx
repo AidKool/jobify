@@ -1,9 +1,8 @@
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Landing from './pages/Landing';
 import { ThemeProvider } from '@mui/material';
-
-import theme from './store/theme/theme';
+import { Landing } from './pages';
+import theme from './theme';
 
 function App() {
   return (

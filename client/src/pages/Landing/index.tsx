@@ -2,7 +2,7 @@ import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, Button, Container, Grid, Typography, useMediaQuery } from '@mui/material';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import LandingPageAppBar from '../../components/LandingPageAppBar';
+import { LandingPageAppBar } from '../../components';
 import main from '../../assets/images/main.svg';
 
 function Landing() {
