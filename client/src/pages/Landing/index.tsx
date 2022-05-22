@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Box, Button, Container, Grid, Typography, useMediaQuery } from '@mui/material';
+import { Link } from 'react-router-dom';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { LandingPageAppBar } from '../../components';
 import main from '../../assets/images/main.svg';
@@ -34,7 +35,7 @@ function Landing() {
               at atque, facilis qui iste aliquam magni libero. Nam, tempore quos? Vitae impedit voluptatem temporibus
               ut.
             </Typography>
-            <Box>
+            <Link to="/auth" style={{ textDecoration: 'none' }}>
               <Button
                 type="submit"
                 variant="contained"
@@ -43,7 +44,7 @@ function Landing() {
                 endIcon={<ArrowForwardIosSharpIcon />}>
                 get started
               </Button>
-            </Box>
+            </Link>
           </Grid>
           {mdWidthMatch && (
             <Grid item md={6}>
