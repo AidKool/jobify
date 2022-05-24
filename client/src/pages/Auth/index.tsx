@@ -6,19 +6,19 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { Logo, Alert } from '../../components';
+import { useAppContext } from '../../context/AppContext';
 
 const initialState = {
   name: '',
   email: '',
   password: '',
   isMember: true,
-  showAlert: false,
   showPassword: false,
 };
 
 function Auth() {
   const [values, setValues] = useState(initialState);
-  // global state and useNavigate
+  const { isLoading, showAlert, displayAlert } = useAppContext();
 
   function handleClickShowPassword() {
     setValues({
@@ -35,12 +35,20 @@ function Auth() {
   }
 
   function handleFormChange(event: ChangeEvent<HTMLInputElement>) {
-    console.log(event.target.value);
+    const { name, value } = event.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
   }
 
   function handleFormSubmit(event: FormEvent) {
     event.preventDefault();
-    console.log(event.target);
+    const { name, email, password, isMember } = values;
+    if (!email || !password || (!name && !isMember)) {
+      return displayAlert();
+    }
+    console.log(values);
   }
 
   return (
@@ -66,7 +74,7 @@ function Auth() {
               <Typography variant="h4" component="h3" textAlign="center">
                 {values.isMember ? 'Login' : 'Register'}
               </Typography>
-              {values.showAlert && <Alert type="success" />}
+              {showAlert && <Alert />}
               {!values.isMember && (
                 <TextField
                   onChange={handleFormChange}
@@ -138,7 +146,7 @@ function Auth() {
                 justifyContent="center"
                 lineHeight={1}
                 fontWeight="bold">
-                {values.isMember ? "Not a member yet?" : 'Already a member?'}
+                {values.isMember ? 'Not a member yet?' : 'Already a member?'}
                 <Button
                   variant="text"
                   color="primary"

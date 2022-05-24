@@ -1,18 +1,16 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
+import { useAppContext } from '../../context/AppContext';
 
-type AlertTypeProps = {
-  type: string;
-};
-
-function Alert({ type }: AlertTypeProps) {
+function Alert() {
+  const { alertType, alertText } = useAppContext();
   return (
     <Box
       textAlign="center"
       padding={1}
       borderRadius={1}
       sx={
-        type === 'success'
+        alertType === 'success'
           ? {
               bgcolor: 'success.light',
             }
@@ -20,7 +18,7 @@ function Alert({ type }: AlertTypeProps) {
               bgcolor: 'error.light',
             }
       }>
-      <Typography color={`${type === 'success' ? 'success.dark' : 'error.dark'}`}>alert</Typography>
+      <Typography color={`${alertType === 'success' ? 'success.dark' : 'error.dark'}`}>{alertText}</Typography>
     </Box>
   );
 }
