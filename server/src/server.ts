@@ -1,10 +1,16 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
+import { ApolloServer } from 'apollo-server-express';
 import path from 'path';
 import db from './config/connection';
+import { typeDefs, resolvers } from './schemas';
 
+const PORT = process.env.PORT || 4000;
 const app = express();
 
-const PORT = process.env.PORT || 3001;
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -17,11 +23,20 @@ app.get('/', (_, res: Response) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'));
 });
 
-app.get('*', (_, res: Response) => {
-  res.sendFile(path.join(__dirname, '../../client/build/index.html'));
-});
+// app.get('*', (_, res: Response) => {
+//   res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+// });
 
-db.once('open', () => {
-  console.log('Connection to database established');
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-});
+const startApolloServer = async () => {
+  await server.start();
+  server.applyMiddleware({ app });
+
+  db.once('open', () => {
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+    });
+  });
+};
+
+startApolloServer();
