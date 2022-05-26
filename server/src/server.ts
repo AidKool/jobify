@@ -1,10 +1,12 @@
 import express, { Response } from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import path from 'path';
+import dotenv from 'dotenv';
 import db from './config/connection';
 import { typeDefs, resolvers } from './schemas';
 
-const PORT = process.env.PORT || 4000;
+dotenv.config();
+const PORT = process.env.PORT;
 const app = express();
 
 const server = new ApolloServer({
