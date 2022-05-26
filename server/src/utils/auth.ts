@@ -9,8 +9,10 @@ const secret = createHash(process.env.JWT_SECRET as string);
 const expiration = process.env.JWT_LIFETIME;
 
 type SignTokenType = {
-  username: string;
+  name: string;
+  lastName: string;
   email: string;
+  location: string;
   _id: ObjectId;
 };
 
@@ -37,8 +39,8 @@ function authMiddleware({ req }: { req: UserRequest }) {
   return req;
 }
 
-function signToken({ email, username, _id }: SignTokenType) {
-  const payload = { email, username, _id };
+function signToken({ name, lastName, email, location, _id }: SignTokenType) {
+  const payload = { name, lastName, email, location, _id };
   return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
 }
 
