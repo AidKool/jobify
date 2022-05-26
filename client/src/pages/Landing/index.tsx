@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { Box, Button, Container, Grid, Typography, useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { LandingPageAppBar } from '../../components';
 import main from '../../assets/images/main.svg';
+import AuthService from '../../utils/auth';
 
 function Landing() {
   const theme = useTheme();
   const mdWidthMatch = useMediaQuery(theme.breakpoints.up('md'));
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (AuthService.loggedIn()) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   return (
     <Box component="main" bgcolor="secondary.main">

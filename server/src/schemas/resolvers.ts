@@ -21,11 +21,14 @@ const resolvers = {
   Mutation: {
     addUser: async (_: unknown, { name, email, password }: AuthUserType) => {
       try {
-        return await User.create({ name, email, password });
+        const user = await User.create({ name, email, password });
+        const token = signToken(user);
+        return { token, user };
       } catch (error: any) {
         throw new Error(error.message);
       }
     },
+
     login: async (_: unknown, { email, password }: AuthUserType) => {
       const user = await User.findOne({ email });
 
