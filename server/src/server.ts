@@ -4,6 +4,7 @@ import path from 'path';
 import dotenv from 'dotenv';
 import db from './config/connection';
 import { typeDefs, resolvers } from './schemas';
+import { authMiddleware } from './utils/auth';
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -12,6 +13,7 @@ const app = express();
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleware,
 });
 
 app.use(express.urlencoded({ extended: false }));

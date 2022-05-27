@@ -1,8 +1,21 @@
 import { gql } from '@apollo/client';
 
 export const QUERY_ALL_USERS = gql`
-  query getAllUsers() {
+  query getAllUsers {
     getAllUsers {
+      _id
+      name
+      lastName
+      email
+      password
+      location
+    }
+  }
+`;
+
+export const QUERY_USER_BY_ID = gql`
+  query getUserById($id: ID) {
+    getUserById {
       _id
       name
       lastName
@@ -12,9 +25,9 @@ export const QUERY_ALL_USERS = gql`
   }
 `;
 
-export const QUERY_USER_BY_ID = gql`
-  query getUserById($id: ID) {
-    getUserById {
+export const QUERY_LOGGED_IN_USER = gql`
+  query me {
+    me {
       _id
       name
       lastName

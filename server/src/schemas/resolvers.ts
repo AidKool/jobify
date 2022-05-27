@@ -11,11 +11,28 @@ type AuthUserType = {
 
 const resolvers = {
   Query: {
+    me: async (_: unknown, __: unknown, context: { user: { _id: ObjectId } }) => {
+      try {
+        if (context.user) {
+          return await User.findById(context.user._id);
+        }
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
     getAllUsers: async () => {
-      return User.find();
+      try {
+        return User.find();
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
     },
     getUserById: async (_: unknown, { _id }: { _id: ObjectId }) => {
-      return User.findById(_id);
+      try {
+        return User.findById(_id);
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
     },
   },
   Mutation: {

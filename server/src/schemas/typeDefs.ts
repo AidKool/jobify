@@ -16,6 +16,7 @@ const typeDefs = gql`
   }
 
   type Query {
+    me: User
     getAllUsers: [User]
     getUserById(_id: ID): User
   }
