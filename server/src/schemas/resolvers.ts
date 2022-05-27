@@ -22,6 +22,7 @@ const resolvers = {
     addUser: async (_: unknown, { name, email, password }: AuthUserType) => {
       try {
         const user = await User.create({ name, email, password });
+        user.password = null;
         const token = signToken(user);
         return { token, user };
       } catch (error: any) {
@@ -30,20 +31,25 @@ const resolvers = {
     },
 
     login: async (_: unknown, { email, password }: AuthUserType) => {
-      const user = await User.findOne({ email });
+      try {
+        const user = await User.findOne({ email });
 
-      if (!user) {
-        throw new AuthenticationError('Invalid credentials');
+        if (!user) {
+          throw new AuthenticationError('Invalid credentials');
+        }
+
+        const correctPassword = await user.isCorrectPassword(password);
+
+        if (!correctPassword) {
+          throw new AuthenticationError('Invalid credentials');
+        }
+
+        user.password = null;
+        const token = signToken(user);
+        return { token, user };
+      } catch (error: any) {
+        throw new Error(error.message);
       }
-
-      const correctPassword = await user.isCorrectPassword(password);
-
-      if (!correctPassword) {
-        throw new AuthenticationError('Invalid credentials');
-      }
-
-      const token = signToken(user);
-      return { token, user };
     },
   },
 };

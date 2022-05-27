@@ -3,7 +3,7 @@ import decode, { JwtPayload } from 'jwt-decode';
 class AuthService {
   getProfile() {
     if (this.loggedIn()) {
-      return decode(this.getToken()!);
+      return decode(this.getToken() as string);
     }
   }
 
