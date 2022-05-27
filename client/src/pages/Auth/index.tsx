@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -24,6 +25,13 @@ function Auth() {
   const { isLoading, showAlert, displayAlert } = useAppContext();
   const [addUser] = useMutation(ADD_USER);
   const [login] = useMutation(LOGIN);
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (AuthService.loggedIn()) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
 
   function handleClickShowPassword() {
     setValues({
