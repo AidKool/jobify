@@ -9,7 +9,7 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { Logo, Alert } from '../../components';
 import { useAppContext } from '../../context/AppContext';
-import { ADD_USER, LOGIN } from '../../utils/mutations';
+import { LOGIN } from '../../utils/mutations';
 import AuthService from '../../utils/auth';
 
 const initialState = {
@@ -22,8 +22,7 @@ const initialState = {
 
 function Auth() {
   const [values, setValues] = useState(initialState);
-  const { isLoading, showAlert, displayAlert } = useAppContext();
-  const [addUser] = useMutation(ADD_USER);
+  const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
   const [login] = useMutation(LOGIN);
 
   const navigate = useNavigate();
@@ -71,14 +70,7 @@ function Auth() {
         });
         AuthService.login(data.login.token);
       } else {
-        const { data } = await addUser({
-          variables: {
-            name: values.name,
-            email: values.email,
-            password: values.password,
-          },
-        });
-        AuthService.login(data.addUser.token);
+        registerUser(values);
       }
     } catch (error: any) {
       throw new Error(error.message);
@@ -166,6 +158,7 @@ function Auth() {
               <Button
                 type="submit"
                 variant="contained"
+                disabled={isLoading}
                 disableElevation
                 sx={{ bgcolor: 'primary.main', color: '#f2f2f2' }}>
                 submit

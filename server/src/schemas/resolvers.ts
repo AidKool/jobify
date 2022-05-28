@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server-express';
+import { ApolloError, AuthenticationError } from 'apollo-server-express';
 import { ObjectId } from 'mongoose';
 import { User } from '../models';
 import { signToken } from '../utils/auth';
@@ -43,7 +43,7 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
       } catch (error: any) {
-        throw new Error(error.message);
+        throw new Error(error);
       }
     },
 
