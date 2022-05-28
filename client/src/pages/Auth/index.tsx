@@ -1,7 +1,6 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Box, Button, Container, Grid, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -9,7 +8,6 @@ import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
 import { Logo, Alert } from '../../components';
 import { useAppContext } from '../../context/AppContext';
-import { LOGIN } from '../../utils/mutations';
 import AuthService from '../../utils/auth';
 
 const initialState = {
@@ -22,8 +20,7 @@ const initialState = {
 
 function Auth() {
   const [values, setValues] = useState(initialState);
-  const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
-  const [login] = useMutation(LOGIN);
+  const { isLoading, showAlert, displayAlert, registerUser, loginUser } = useAppContext();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -62,13 +59,7 @@ function Auth() {
     }
     try {
       if (values.isMember) {
-        const { data } = await login({
-          variables: {
-            email: values.email,
-            password: values.password,
-          },
-        });
-        AuthService.login(data.login.token);
+        loginUser(values);
       } else {
         registerUser(values);
       }

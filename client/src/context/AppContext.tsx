@@ -1,6 +1,15 @@
 import React, { useEffect, createContext, useContext, ReactNode, useReducer } from 'react';
 import { ApolloError, useMutation } from '@apollo/client';
-import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN, SETUP_USER_ERROR, SETUP_USER_SUCCESS } from './actions';
+import {
+  CLEAR_ALERT,
+  DISPLAY_ALERT,
+  LOGIN_USER_BEGIN,
+  LOGIN_USER_ERROR,
+  LOGIN_USER_SUCCESS,
+  SETUP_USER_BEGIN,
+  SETUP_USER_ERROR,
+  SETUP_USER_SUCCESS,
+} from './actions';
 import { ADD_USER, LOGIN } from '../utils/mutations';
 import AuthService from '../utils/auth';
 import reducer from './reducer';
@@ -11,11 +20,12 @@ type initialStateType = {
   alertText: string;
   alertType: string;
   displayAlert: () => void;
-  registerUser: ({ name, email, password }: RegisterUserType) => Promise<void>;
+  registerUser: ({ name, email, password }: AuthUserType) => Promise<void>;
+  loginUser: ({ email, password }: AuthUserType) => Promise<void>;
 };
 
-type RegisterUserType = {
-  name: string;
+type AuthUserType = {
+  name?: string;
   email: string;
   password: string;
 };
@@ -53,7 +63,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
     }, 3000);
   }
 
-  async function registerUser({ name, email, password }: RegisterUserType) {
+  async function registerUser({ name, email, password }: AuthUserType) {
     dispatch({ type: SETUP_USER_BEGIN, payload: '' });
     try {
       const { data } = await addUser({
@@ -65,14 +75,31 @@ function AppProvider({ children }: AppProviderTypeProps) {
       });
       dispatch({ type: SETUP_USER_SUCCESS, payload: '' });
       AuthService.login(data.addUser.token);
-    } catch (error) {
-      console.log(error as ApolloError);
-      dispatch({ type: SETUP_USER_ERROR, payload: (error as ApolloError).message });
+    } catch (error: any) {
+      dispatch({ type: SETUP_USER_ERROR, payload: error.message });
     }
     clearAlert();
   }
 
-  return <AppContext.Provider value={{ ...state, displayAlert, registerUser }}>{children}</AppContext.Provider>;
+  async function loginUser({ email, password }: AuthUserType) {
+    dispatch({ type: LOGIN_USER_BEGIN, payload: '' });
+    try {
+      const { data } = await login({
+        variables: {
+          email,
+          password,
+        },
+      });
+      dispatch({ type: LOGIN_USER_SUCCESS, payload: '' });
+      AuthService.login(data.login.token);
+    } catch (error: any) {
+      dispatch({ type: LOGIN_USER_ERROR, payload: error.message });
+    }
+  }
+
+  return (
+    <AppContext.Provider value={{ ...state, displayAlert, registerUser, loginUser }}>{children}</AppContext.Provider>
+  );
 }
 
 export { AppProvider, initialState, useAppContext };

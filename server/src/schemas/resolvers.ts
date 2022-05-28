@@ -1,4 +1,4 @@
-import { ApolloError, AuthenticationError } from 'apollo-server-express';
+import { AuthenticationError } from 'apollo-server-express';
 import { ObjectId } from 'mongoose';
 import { User } from '../models';
 import { signToken } from '../utils/auth';

@@ -1,5 +1,13 @@
-import { DISPLAY_ALERT, CLEAR_ALERT, SETUP_USER_BEGIN, SETUP_USER_SUCCESS, SETUP_USER_ERROR } from './actions';
-
+import {
+  DISPLAY_ALERT,
+  CLEAR_ALERT,
+  SETUP_USER_BEGIN,
+  SETUP_USER_SUCCESS,
+  SETUP_USER_ERROR,
+  LOGIN_USER_BEGIN,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_ERROR,
+} from './actions';
 type StateType = {
   isLoading: boolean;
   showAlert: boolean;
@@ -21,8 +29,26 @@ function reducer(state: StateType, action: ActionType) {
     case SETUP_USER_BEGIN:
       return { ...state, isLoading: true };
     case SETUP_USER_SUCCESS:
-      return { ...state, isLoading: false, showAlert: true, alertType: 'success', alertText: 'User created successfully' };
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'success',
+        alertText: 'User created successfully',
+      };
     case SETUP_USER_ERROR:
+      return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: action.payload };
+    case LOGIN_USER_BEGIN:
+      return { ...state, isLoading: true };
+    case LOGIN_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'success',
+        alertText: 'User logged in successfully',
+      };
+    case LOGIN_USER_ERROR:
       return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: action.payload };
     default:
       return state;
