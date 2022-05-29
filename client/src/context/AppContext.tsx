@@ -60,7 +60,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
   function clearAlert() {
     setTimeout(() => {
       dispatch({ type: CLEAR_ALERT, payload: '' });
-    }, 3000);
+    }, 5000);
   }
 
   async function registerUser({ name, email, password }: AuthUserType) {
@@ -76,7 +76,17 @@ function AppProvider({ children }: AppProviderTypeProps) {
       dispatch({ type: SETUP_USER_SUCCESS, payload: '' });
       AuthService.login(data.addUser.token);
     } catch (error: any) {
-      dispatch({ type: SETUP_USER_ERROR, payload: error.message });
+      let msg = '';
+      if (error.message.includes('email')) {
+        msg = 'Email address already in use';
+      } else if (error.message.includes('name')) {
+        msg = 'Choose a valid name of 3 characters of more';
+      } else if (error.message.includes('password')) {
+        msg = 'Choose a valid password of 6 characters of more';
+      } else {
+        msg = 'There was an error\nTry again later';
+      }
+      dispatch({ type: SETUP_USER_ERROR, payload: msg });
     }
     clearAlert();
   }
@@ -95,6 +105,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
     } catch (error: any) {
       dispatch({ type: LOGIN_USER_ERROR, payload: error.message });
     }
+    clearAlert();
   }
 
   return (
