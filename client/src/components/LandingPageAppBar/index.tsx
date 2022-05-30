@@ -1,13 +1,13 @@
 import React from 'react';
 import { AppBar, Toolbar, Container } from '@mui/material';
-import { Logo } from '../../components';
+import { LargeLogo } from '../../components';
 
 function LandingPageAppBar() {
   return (
     <AppBar sx={{ boxShadow: 0, paddingTop: '0.5rem', paddingBottom: '0.5rem' }} color="secondary">
       <Container maxWidth="lg">
         <Toolbar sx={{ padding: '0 !important' }}>
-          <Logo />
+          <LargeLogo />
         </Toolbar>
       </Container>
     </AppBar>

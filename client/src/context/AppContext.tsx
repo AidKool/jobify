@@ -1,14 +1,16 @@
-import React, { useEffect, createContext, useContext, ReactNode, useReducer } from 'react';
-import { ApolloError, useMutation } from '@apollo/client';
+import React, { createContext, useContext, ReactNode, useReducer } from 'react';
+import { useMutation } from '@apollo/client';
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
   LOGIN_USER_BEGIN,
   LOGIN_USER_ERROR,
   LOGIN_USER_SUCCESS,
+  LOGOUT_USER,
   SETUP_USER_BEGIN,
   SETUP_USER_ERROR,
   SETUP_USER_SUCCESS,
+  TOGGLE_SIDEBAR,
 } from './actions';
 import { ADD_USER, LOGIN } from '../utils/mutations';
 import AuthService from '../utils/auth';
@@ -22,6 +24,8 @@ type initialStateType = {
   displayAlert: () => void;
   registerUser: ({ name, email, password }: AuthUserType) => Promise<void>;
   loginUser: ({ email, password }: AuthUserType) => Promise<void>;
+  logoutUser: () => void;
+  toggleSidebar: () => void;
 };
 
 type AuthUserType = {
@@ -35,6 +39,7 @@ const initialState = {
   showAlert: false,
   alertText: '',
   alertType: '',
+  showSidebar: false,
 };
 
 const AppContext = createContext({} as initialStateType);
@@ -108,8 +113,19 @@ function AppProvider({ children }: AppProviderTypeProps) {
     clearAlert();
   }
 
+  function logoutUser() {
+    dispatch({ type: LOGOUT_USER, payload: '' });
+    localStorage.clear();
+  }
+
+  function toggleSidebar() {
+    dispatch({ type: TOGGLE_SIDEBAR, payload: '' });
+  }
+
   return (
-    <AppContext.Provider value={{ ...state, displayAlert, registerUser, loginUser }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ ...state, displayAlert, registerUser, loginUser, logoutUser, toggleSidebar }}>
+      {children}
+    </AppContext.Provider>
   );
 }
 

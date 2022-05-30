@@ -12,7 +12,7 @@ function SharedLayout() {
     <Box component="main" bgcolor="secondary.main">
       <Grid container minHeight="100vh">
         {mdWidthMatch && (
-          <Grid item md={2} padding={1}>
+          <Grid item md={1.5} padding={1}>
             <BigSidebar />
           </Grid>
         )}
@@ -21,7 +21,7 @@ function SharedLayout() {
             <SmallSidebar />
           </Grid>
         )}
-        <Grid item xs={12} md={10}>
+        <Grid item xs={12} md={10.5}>
           <Box minHeight="100vh">
             <Navbar />
             <Box className="test">

@@ -6,7 +6,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
-import { Logo, Alert } from '../../components';
+import { LargeLogo, Alert } from '../../components';
 import { useAppContext } from '../../context/AppContext';
 import AuthService from '../../utils/auth';
 
@@ -87,7 +87,7 @@ function Auth() {
               borderTop="5px solid"
               borderColor="primary.main"
               padding={5}>
-              <Logo />
+              <LargeLogo />
               <Typography variant="h4" component="h3" textAlign="center">
                 {values.isMember ? 'Login' : 'Register'}
               </Typography>

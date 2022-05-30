@@ -7,12 +7,18 @@ import {
   LOGIN_USER_BEGIN,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
+  TOGGLE_SIDEBAR,
+  LOGOUT_USER,
 } from './actions';
+
+import { initialState } from './AppContext';
+
 type StateType = {
   isLoading: boolean;
   showAlert: boolean;
   alertText: string;
   alertType: string;
+  showSidebar: boolean;
 };
 
 type ActionType = {
@@ -50,6 +56,10 @@ function reducer(state: StateType, action: ActionType) {
       };
     case LOGIN_USER_ERROR:
       return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: action.payload };
+    case TOGGLE_SIDEBAR:
+      return { ...state, showSidebar: !state.showSidebar };
+    case LOGOUT_USER:
+      return { ...initialState };
     default:
       return state;
   }
