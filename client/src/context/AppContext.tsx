@@ -21,6 +21,7 @@ type initialStateType = {
   showAlert: boolean;
   alertText: string;
   alertType: string;
+  showSidebar: boolean;
   displayAlert: () => void;
   registerUser: ({ name, email, password }: AuthUserType) => Promise<void>;
   loginUser: ({ email, password }: AuthUserType) => Promise<void>;

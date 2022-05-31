@@ -24,7 +24,7 @@ function SharedLayout() {
         <Grid item xs={12} md={10.5}>
           <Box minHeight="100vh">
             <Navbar />
-            <Box className="test">
+            <Box>
               <Outlet />
             </Box>
           </Box>
