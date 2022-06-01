@@ -1,0 +1,43 @@
+import React from 'react';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+import links from '../../utils/SidebarLinks';
+
+type NavLinksPropTypes = {
+  toggleSidebar: () => void;
+};
+
+function NavLinks({ toggleSidebar }: NavLinksPropTypes) {
+  return (
+    <List>
+      {links.map((link) => {
+        const { id, path, text, icon } = link;
+        return (
+          <ListItem key={id} sx={{ width: '100%', paddingY: 0 }}>
+            <NavLink
+              to={path}
+              onClick={toggleSidebar}
+              style={{ textDecoration: 'none', width: '100%' }}
+              className={(isActive) => (isActive ? 'activeLink' : '')}>
+              <ListItemButton
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  '&:hover *': {
+                    color: 'primary.main',
+                  },
+                }}>
+                <Box display="flex" width="8rem" justifyContent="space-between" alignItems="center">
+                  <ListItemIcon>{icon}</ListItemIcon>
+                  <ListItemText primary={text} sx={{ textTransform: 'capitalize', color: 'text.secondary' }} />
+                </Box>
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+}
+
+export default NavLinks;

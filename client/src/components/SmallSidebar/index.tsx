@@ -1,11 +1,9 @@
 import React from 'react';
-import { Box, Typography, Modal, List, ListItemButton, ListItemIcon, ListItemText, ListItem } from '@mui/material';
-
-import { NavLink } from 'react-router-dom';
+import { Box, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppContext } from '../../context/AppContext';
-import links from '../SidebarLinks';
 import LargeLogo from '../Logo/LargeLogo';
+import NavLinks from '../NavLinks';
 
 const style = {
   position: 'absolute',
@@ -37,30 +35,7 @@ function SmallSidebar() {
             }}
           />
           <LargeLogo />
-          <List>
-            {links.map((link) => {
-              const { id, path, text, icon } = link;
-              return (
-                <ListItem key={id} sx={{ width: '100%' }}>
-                  <NavLink to={path} onClick={toggleSidebar} style={{ textDecoration: 'none', width: '100%' }}>
-                    <ListItemButton
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        '&:hover *': {
-                          color: 'primary.main',
-                        },
-                      }}>
-                      <Box display="flex" width="8rem" justifyContent="space-between" alignItems="center">
-                        <ListItemIcon>{icon}</ListItemIcon>
-                        <ListItemText primary={text} sx={{ textTransform: 'capitalize', color: 'text.secondary' }} />
-                      </Box>
-                    </ListItemButton>
-                  </NavLink>
-                </ListItem>
-              );
-            })}
-          </List>
+          <NavLinks toggleSidebar={toggleSidebar} />
         </Box>
       </Modal>
     </div>

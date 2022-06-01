@@ -1,27 +1,30 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Box, Container, Grid, useMediaQuery } from '@mui/material';
-import { Link, Outlet } from 'react-router-dom';
+import { Box, Grid, useMediaQuery } from '@mui/material';
+import { Outlet } from 'react-router-dom';
 import { Navbar, SmallSidebar, BigSidebar } from '../../components';
+import { useAppContext } from '../../context/AppContext';
 
 function SharedLayout() {
   const theme = useTheme();
-  const mdWidthMatch = useMediaQuery(theme.breakpoints.up('md'));
+  const mdBreakPoint = useMediaQuery(theme.breakpoints.up('md'));
+  const lgBreakPoint = useMediaQuery(theme.breakpoints.up('lg'));
+  const { showSidebar } = useAppContext();
 
   return (
-    <Box component="main" bgcolor="secondary.main">
-      <Grid container minHeight="100vh">
-        {mdWidthMatch && (
-          <Grid item md={1.5} padding={1}>
+    <Box component="main" sx={{ bgcolor: '#fff' }}>
+      <Grid container minHeight="100vh" justifyContent="center">
+        {mdBreakPoint && (
+          <Grid item md={!showSidebar ? (!lgBreakPoint ? 3 : 2) : 0}>
             <BigSidebar />
           </Grid>
         )}
-        {!mdWidthMatch && (
+        {!mdBreakPoint && (
           <Grid item xs={12}>
             <SmallSidebar />
           </Grid>
         )}
-        <Grid item xs={12} md={10.5}>
+        <Grid item xs={12} md={!showSidebar ? (!lgBreakPoint ? 9 : 10) : 12}>
           <Box minHeight="100vh">
             <Navbar />
             <Box>
