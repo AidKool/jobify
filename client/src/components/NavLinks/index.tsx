@@ -1,6 +1,7 @@
 import React from 'react';
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, useMediaQuery } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 import links from '../../utils/SidebarLinks';
 
 type NavLinksPropTypes = {
@@ -8,6 +9,9 @@ type NavLinksPropTypes = {
 };
 
 function NavLinks({ toggleSidebar }: NavLinksPropTypes) {
+  const theme = useTheme();
+  const mdBreakPoint = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <List>
       {links.map((link) => {
@@ -16,7 +20,11 @@ function NavLinks({ toggleSidebar }: NavLinksPropTypes) {
           <ListItem key={id} sx={{ width: '100%', paddingY: 0 }}>
             <NavLink
               to={path}
-              onClick={toggleSidebar}
+              onClick={() => {
+                if (mdBreakPoint) {
+                  toggleSidebar();
+                }
+              }}
               style={{ textDecoration: 'none', width: '100%' }}
               className={(isActive) => (isActive ? 'activeLink' : '')}>
               <ListItemButton
