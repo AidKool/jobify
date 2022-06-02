@@ -27,7 +27,7 @@ function SharedLayout() {
         <Grid item xs={12} md={!showSidebar ? (!lgBreakPoint ? 9 : 10) : 12}>
           <Box minHeight="100vh">
             <Navbar />
-            <Box>
+            <Box bgcolor="secondary.main">
               <Outlet />
             </Box>
           </Box>

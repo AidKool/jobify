@@ -9,6 +9,9 @@ import {
   LOGIN_USER_ERROR,
   TOGGLE_SIDEBAR,
   LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
 } from './actions';
 
 import { initialState } from './AppContext';
@@ -55,6 +58,18 @@ function reducer(state: StateType, action: ActionType) {
         alertText: 'User logged in successfully',
       };
     case LOGIN_USER_ERROR:
+      return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: action.payload };
+    case UPDATE_USER_BEGIN:
+      return { ...state, isLoading: true };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'success',
+        alertText: 'User updated successfully',
+      };
+    case UPDATE_USER_ERROR:
       return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: action.payload };
     case TOGGLE_SIDEBAR:
       return { ...state, showSidebar: !state.showSidebar };

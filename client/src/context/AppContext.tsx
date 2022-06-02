@@ -11,8 +11,11 @@ import {
   SETUP_USER_ERROR,
   SETUP_USER_SUCCESS,
   TOGGLE_SIDEBAR,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_ERROR,
+  UPDATE_USER_SUCCESS,
 } from './actions';
-import { ADD_USER, LOGIN } from '../utils/mutations';
+import { ADD_USER, UPDATE_USER, LOGIN } from '../utils/mutations';
 import AuthService from '../utils/auth';
 import reducer from './reducer';
 
@@ -25,14 +28,17 @@ type initialStateType = {
   displayAlert: () => void;
   registerUser: ({ name, email, password }: AuthUserType) => Promise<void>;
   loginUser: ({ email, password }: AuthUserType) => Promise<void>;
+  updateCurrentUser: ({ name, lastName, email, password }: AuthUserType) => Promise<void>;
   logoutUser: () => void;
   toggleSidebar: () => void;
 };
 
 type AuthUserType = {
   name?: string;
+  lastName?: string;
   email: string;
-  password: string;
+  location?: string;
+  password?: string;
 };
 
 const initialState = {
@@ -57,6 +63,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [login] = useMutation(LOGIN);
   const [addUser] = useMutation(ADD_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   function displayAlert() {
     dispatch({ type: DISPLAY_ALERT, payload: '' });
@@ -82,19 +89,49 @@ function AppProvider({ children }: AppProviderTypeProps) {
       dispatch({ type: SETUP_USER_SUCCESS, payload: '' });
       AuthService.login(data.addUser.token);
     } catch (error: any) {
-      let msg = '';
-      if (error.message.includes('email')) {
-        msg = 'Email address already in use';
-      } else if (error.message.includes('name')) {
-        msg = 'Choose a valid name of 3 characters of more';
-      } else if (error.message.includes('password')) {
-        msg = 'Choose a valid password of 6 characters of more';
-      } else {
-        msg = 'There was an error\nTry again later';
-      }
+      const msg = customError(error.message);
       dispatch({ type: SETUP_USER_ERROR, payload: msg });
     }
     clearAlert();
+  }
+
+  function customError(errorMessage: string) {
+    if (errorMessage.includes('Add a valid email')) {
+      return 'Add a valid email';
+    } else if (errorMessage.includes('email')) {
+      return 'Email address already in use';
+    } else if (errorMessage.includes('name')) {
+      return 'Choose a valid name of 3 characters of more';
+    } else if (errorMessage.includes('password')) {
+      return 'Choose a valid password of 6 characters of more';
+    }
+    return 'There was an error\nTry again later';
+  }
+
+  async function updateCurrentUser({ name, lastName, email, location }: AuthUserType) {
+    dispatch({ type: UPDATE_USER_BEGIN, payload: '' });
+    try {
+      console.log('before user update');
+      const { data } = await updateUser({
+        variables: {
+          name,
+          lastName,
+          email,
+          location,
+        },
+      });
+      console.log('after user update');
+      console.log(data);
+      dispatch({ type: UPDATE_USER_SUCCESS, payload: '' });
+    } catch (error: any) {
+      console.log('inside catch');
+      console.log(error.message);
+
+      const msg = customError(error.message);
+      dispatch({ type: UPDATE_USER_ERROR, payload: msg });
+    } finally {
+      clearAlert();
+    }
   }
 
   async function loginUser({ email, password }: AuthUserType) {
@@ -124,7 +161,8 @@ function AppProvider({ children }: AppProviderTypeProps) {
   }
 
   return (
-    <AppContext.Provider value={{ ...state, displayAlert, registerUser, loginUser, logoutUser, toggleSidebar }}>
+    <AppContext.Provider
+      value={{ ...state, displayAlert, registerUser, loginUser, updateCurrentUser, logoutUser, toggleSidebar }}>
       {children}
     </AppContext.Provider>
   );

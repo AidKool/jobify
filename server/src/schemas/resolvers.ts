@@ -3,9 +3,11 @@ import { ObjectId } from 'mongoose';
 import { User } from '../models';
 import { signToken } from '../utils/auth';
 
-type AuthUserType = {
+type UserType = {
   name?: string;
+  lastName?: string;
   email: string;
+  location?: string;
   password: string;
 };
 
@@ -36,7 +38,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (_: unknown, { name, email, password }: AuthUserType) => {
+    addUser: async (_: unknown, { name, email, password }: UserType) => {
       try {
         const user = await User.create({ name, email, password });
         user.password = null;
@@ -46,8 +48,35 @@ const resolvers = {
         throw new Error(error);
       }
     },
-
-    login: async (_: unknown, { email, password }: AuthUserType) => {
+    updateUser: async (
+      _: unknown,
+      { name, lastName, email, location }: UserType,
+      context: { user: { _id: ObjectId } }
+    ) => {
+      try {
+        if (context.user._id) {
+          const user = await User.findByIdAndUpdate(
+            context.user._id,
+            {
+              name,
+              lastName,
+              email,
+              location,
+            },
+            {
+              new: true,
+              runValidators: true,
+            }
+          );
+          user.password = null;
+          const token = signToken(user);
+          return { token, user };
+        }
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    },
+    login: async (_: unknown, { email, password }: UserType) => {
       try {
         const user = await User.findOne({ email });
 
