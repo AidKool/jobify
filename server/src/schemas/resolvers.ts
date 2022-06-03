@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server-express';
 import { ObjectId } from 'mongoose';
-import { User } from '../models';
+import { Job, User } from '../models';
 import { signToken } from '../utils/auth';
 
 type UserType = {
@@ -9,6 +9,12 @@ type UserType = {
   email: string;
   location?: string;
   password: string;
+};
+
+type AddJobType = {
+  company: string;
+  position: string;
+  location: string;
 };
 
 const resolvers = {
@@ -93,6 +99,18 @@ const resolvers = {
         user.password = null;
         const token = signToken(user);
         return { token, user };
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
+    addJob: async (_: unknown, { company, position, location }: AddJobType, context: { user: { _id: ObjectId } }) => {
+      try {
+        if (context.user._id) {
+          const job = await Job.create({ company, position, location, createdBy: context.user._id });
+          return job;
+        } else {
+          throw new AuthenticationError('User not logged in');
+        }
       } catch (error: any) {
         throw new Error(error.message);
       }
