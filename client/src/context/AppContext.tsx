@@ -14,8 +14,11 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
+  CREATE_JOB_BEGIN,
+  CREATE_JOB_ERROR,
+  CREATE_JOB_SUCCESS,
 } from './actions';
-import { ADD_USER, UPDATE_USER, LOGIN } from '../utils/mutations';
+import { ADD_USER, UPDATE_USER, LOGIN, CREATE_JOB } from '../utils/mutations';
 import AuthService from '../utils/auth';
 import reducer from './reducer';
 
@@ -31,6 +34,7 @@ type initialStateType = {
   updateCurrentUser: ({ name, lastName, email, password }: AuthUserType) => Promise<void>;
   logoutUser: () => void;
   toggleSidebar: () => void;
+  createJob: ({ position, company, location, status, type }: JobType) => Promise<void>;
 };
 
 type AuthUserType = {
@@ -39,6 +43,14 @@ type AuthUserType = {
   email: string;
   location?: string;
   password?: string;
+};
+
+type JobType = {
+  position: string;
+  company: string;
+  location: string;
+  status: string;
+  type: string;
 };
 
 const initialState = {
@@ -64,6 +76,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
   const [login] = useMutation(LOGIN);
   const [addUser] = useMutation(ADD_USER);
   const [updateUser] = useMutation(UPDATE_USER);
+  const [addJob] = useMutation(CREATE_JOB);
 
   function displayAlert() {
     dispatch({ type: DISPLAY_ALERT, payload: '' });
@@ -111,7 +124,6 @@ function AppProvider({ children }: AppProviderTypeProps) {
   async function updateCurrentUser({ name, lastName, email, location }: AuthUserType) {
     dispatch({ type: UPDATE_USER_BEGIN, payload: '' });
     try {
-      console.log('before user update');
       const { data } = await updateUser({
         variables: {
           name,
@@ -120,13 +132,8 @@ function AppProvider({ children }: AppProviderTypeProps) {
           location,
         },
       });
-      console.log('after user update');
-      console.log(data);
       dispatch({ type: UPDATE_USER_SUCCESS, payload: '' });
     } catch (error: any) {
-      console.log('inside catch');
-      console.log(error.message);
-
       const msg = customError(error.message);
       dispatch({ type: UPDATE_USER_ERROR, payload: msg });
     } finally {
@@ -160,9 +167,38 @@ function AppProvider({ children }: AppProviderTypeProps) {
     dispatch({ type: TOGGLE_SIDEBAR, payload: '' });
   }
 
+  async function createJob({ position, company, location, status, type }: JobType) {
+    dispatch({ type: CREATE_JOB_BEGIN, payload: '' });
+    try {
+      const { data } = await addJob({
+        variables: {
+          position,
+          company,
+          location,
+          status,
+          type,
+        },
+      });
+      dispatch({ type: CREATE_JOB_SUCCESS, payload: '' });
+    } catch (error) {
+      dispatch({ type: CREATE_JOB_ERROR, payload: '' });
+    } finally {
+      clearAlert();
+    }
+  }
+
   return (
     <AppContext.Provider
-      value={{ ...state, displayAlert, registerUser, loginUser, updateCurrentUser, logoutUser, toggleSidebar }}>
+      value={{
+        ...state,
+        displayAlert,
+        registerUser,
+        loginUser,
+        updateCurrentUser,
+        logoutUser,
+        toggleSidebar,
+        createJob,
+      }}>
       {children}
     </AppContext.Provider>
   );

@@ -44,3 +44,11 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const CREATE_JOB = gql`
+  mutation addJob($company: String!, $position: String!, $location: String!) {
+    addJob(company: $company, position: $position, location: $location) {
+      _id
+    }
+  }
+`;

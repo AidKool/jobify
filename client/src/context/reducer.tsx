@@ -12,6 +12,9 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_ERROR,
+  CREATE_JOB_BEGIN,
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
 } from './actions';
 
 import { initialState } from './AppContext';
@@ -71,6 +74,18 @@ function reducer(state: StateType, action: ActionType) {
       };
     case UPDATE_USER_ERROR:
       return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: action.payload };
+    case CREATE_JOB_BEGIN:
+      return { ...state, isLoading: true };
+    case CREATE_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'success',
+        alertText: 'Job created successfully',
+      };
+    case CREATE_JOB_ERROR:
+      return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: 'There was an error' };
     case TOGGLE_SIDEBAR:
       return { ...state, showSidebar: !state.showSidebar };
     case LOGOUT_USER:
