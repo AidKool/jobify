@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useAppContext } from '../../context/AppContext';
 import NavLinks from '../NavLinks';
+import LargeLogo from '../Logo/LargeLogo';
 
 function BigSidebar() {
   const { showSidebar, toggleSidebar } = useAppContext();
@@ -9,10 +10,10 @@ function BigSidebar() {
   return (
     <Box>
       {!showSidebar && (
-        <Box width="100%" paddingY={2.5}>
-          <Typography variant="h4" textAlign="center" textTransform="capitalize">
-            dashboard
-          </Typography>
+        <Box width="100%" paddingY={2}>
+          <Box display="flex" justifyContent="center">
+            <LargeLogo />
+          </Box>
           <NavLinks toggleSidebar={toggleSidebar} />
         </Box>
       )}

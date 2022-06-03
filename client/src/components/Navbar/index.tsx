@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Box, Container, Toolbar, Button, FormControl, useMediaQuery } from '@mui/material';
+import { AppBar, Box, Container, Toolbar, Typography, Button, FormControl, useMediaQuery } from '@mui/material';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
@@ -13,7 +13,8 @@ import { useAppContext } from '../../context/AppContext';
 
 function Navbar() {
   const theme = useTheme();
-  const smWidthMatch = useMediaQuery(theme.breakpoints.down('sm'));
+  const smBreakPointDown = useMediaQuery(theme.breakpoints.down('sm'));
+  const mdBreakPointDown = useMediaQuery(theme.breakpoints.down('md'));
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useNavigate();
 
@@ -40,7 +41,17 @@ function Navbar() {
               }}
             />
             <Box display="flex" flexDirection="column">
-              {smWidthMatch ? <SmallLogo /> : <LargeLogo />}
+              {mdBreakPointDown ? (
+                smBreakPointDown ? (
+                  <SmallLogo />
+                ) : (
+                  <LargeLogo />
+                )
+              ) : (
+                <Typography variant="h4" textTransform="capitalize">
+                  dashboard
+                </Typography>
+              )}
             </Box>
             <FormControl>
               <Button
