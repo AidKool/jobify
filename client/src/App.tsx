@@ -9,6 +9,7 @@ import { AddJobs, AllJobs, Profile, SharedLayout, Stats } from './pages/Dashboar
 import theme from './theme';
 import { AppProvider } from './context/AppContext';
 import { ProtectedRoute } from './components';
+import AuthService from './utils/auth';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -16,6 +17,11 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_: unknown, { headers }) => {
   const token = localStorage.getItem('id_token');
+  console.log(AuthService.isTokenExpired(token!));
+
+  if (token && AuthService.isTokenExpired(token)) {
+    return localStorage.clear();
+  }
   return {
     headers: {
       ...headers,
