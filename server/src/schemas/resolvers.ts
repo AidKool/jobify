@@ -15,6 +15,8 @@ type AddJobType = {
   company: string;
   position: string;
   location: string;
+  status: string;
+  type: string;
 };
 
 const resolvers = {
@@ -112,10 +114,14 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    addJob: async (_: unknown, { company, position, location }: AddJobType, context: { user: { _id: ObjectId } }) => {
+    addJob: async (
+      _: unknown,
+      { company, position, location, status, type }: AddJobType,
+      context: { user: { _id: ObjectId } }
+    ) => {
       try {
         if (context.user._id) {
-          const job = await Job.create({ company, position, location, createdBy: context.user._id });
+          const job = await Job.create({ company, position, location, status, type, createdBy: context.user._id });
           return job;
         } else {
           throw new AuthenticationError('User not logged in');

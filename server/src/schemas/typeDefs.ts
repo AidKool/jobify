@@ -36,7 +36,7 @@ const typeDefs = gql`
     login(email: String!, password: String!): Auth
     addUser(name: String!, email: String!, password: String!): Auth
     updateUser(name: String!, lastName: String!, email: String!, location: String!): Auth
-    addJob(company: String!, position: String!, location: String!): Job
+    addJob(company: String!, position: String!, location: String!, status: String!, type: String!): Job
   }
 `;
 

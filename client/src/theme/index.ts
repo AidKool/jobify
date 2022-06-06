@@ -9,11 +9,18 @@ const theme = createTheme({
     },
     secondary: {
       main: '#F0F4F8',
+      light: '#F5F5F5',
+      dark: '#565656',
     },
     success: {
       main: '#71EB58',
       light: '#C7E8C0',
       dark: '#0E4F00',
+    },
+    warning: {
+      light: '#FFE8C6',
+      main: '#ed6c02',
+      dark: '#e65100',
     },
     error: {
       main: '#FF0000',

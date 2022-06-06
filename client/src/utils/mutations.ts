@@ -46,8 +46,8 @@ export const LOGIN = gql`
 `;
 
 export const CREATE_JOB = gql`
-  mutation addJob($company: String!, $position: String!, $location: String!) {
-    addJob(company: $company, position: $position, location: $location) {
+  mutation addJob($company: String!, $position: String!, $location: String!, $status: String!, $type: String!) {
+    addJob(company: $company, position: $position, location: $location, status: $status, type: $type) {
       _id
     }
   }
