@@ -52,3 +52,16 @@ export const CREATE_JOB = gql`
     }
   }
 `;
+
+export const DELETE_JOB = gql`
+  mutation deleteJob($id: ID) {
+    deleteJob(_id: $id) {
+      _id
+      company
+      position
+      status
+      type
+      location
+    }
+  }
+`;

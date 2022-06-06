@@ -17,8 +17,11 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
+  DELETE_JOB_BEGIN,
+  DELETE_JOB_ERROR,
+  DELETE_JOB_SUCCESS,
 } from './actions';
-import { ADD_USER, UPDATE_USER, LOGIN, CREATE_JOB } from '../utils/mutations';
+import { ADD_USER, UPDATE_USER, LOGIN, CREATE_JOB, DELETE_JOB } from '../utils/mutations';
 import AuthService from '../utils/auth';
 import reducer from './reducer';
 
@@ -35,6 +38,7 @@ type initialStateType = {
   logoutUser: () => void;
   toggleSidebar: () => void;
   createJob: ({ position, company, location, status, type }: JobType) => Promise<void>;
+  removeJob: (_id: string) => Promise<void>;
 };
 
 type AuthUserType = {
@@ -77,6 +81,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
   const [addUser] = useMutation(ADD_USER);
   const [updateUser] = useMutation(UPDATE_USER);
   const [addJob] = useMutation(CREATE_JOB);
+  const [deleteJob] = useMutation(DELETE_JOB);
 
   function displayAlert() {
     dispatch({ type: DISPLAY_ALERT, payload: '' });
@@ -187,6 +192,18 @@ function AppProvider({ children }: AppProviderTypeProps) {
     }
   }
 
+  async function removeJob(id: string) {
+    try {
+      const { data } = await deleteJob({
+        variables: {
+          id,
+        },
+      });
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -198,6 +215,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
         logoutUser,
         toggleSidebar,
         createJob,
+        removeJob,
       }}>
       {children}
     </AppContext.Provider>

@@ -17,7 +17,6 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_: unknown, { headers }) => {
   const token = localStorage.getItem('id_token');
-  console.log(AuthService.isTokenExpired(token!));
 
   if (token && AuthService.isTokenExpired(token)) {
     return localStorage.clear();

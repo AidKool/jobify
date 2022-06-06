@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Avatar, Button, Card, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import { useAppContext } from '../../context/AppContext';
 
 type JobType = {
   company: string;
@@ -13,6 +14,8 @@ type JobType = {
 };
 
 function Job({ company, location, position, status, type, _id }: JobType) {
+  const { removeJob } = useAppContext();
+
   return (
     <Card>
       <CardHeader
@@ -22,7 +25,7 @@ function Job({ company, location, position, status, type, _id }: JobType) {
       <CardContent>
         <Grid container spacing={1} marginBottom={2}>
           <Grid item xs={12} sm={6} display="flex" alignItems="center">
-            <Grid container xs={12} spacing={1}>
+            <Grid container spacing={1}>
               <Grid item>
                 <LocationOnOutlinedIcon />
               </Grid>
@@ -50,7 +53,7 @@ function Job({ company, location, position, status, type, _id }: JobType) {
             </Grid>
           </Grid>
           <Grid item xs={12} sm={6} display="flex" alignItems="center">
-            <Grid container xs={12} spacing={1}>
+            <Grid container spacing={1}>
               <Grid item>
                 <WorkOutlineOutlinedIcon />
               </Grid>
@@ -67,6 +70,10 @@ function Job({ company, location, position, status, type, _id }: JobType) {
             edit
           </Button>
           <Button
+            onClick={() => {
+              removeJob(_id);
+              window.location.reload();
+            }}
             type="button"
             variant="contained"
             sx={{ bgcolor: 'error.light', color: 'error.dark' }}

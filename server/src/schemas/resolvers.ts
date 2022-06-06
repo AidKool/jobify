@@ -130,6 +130,15 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
+    deleteJob: async (_: unknown, { _id }: { _id: ObjectId }, context: { user: { _id: ObjectId } }) => {
+      if (context.user) {
+        try {
+          return Job.findByIdAndDelete(_id);
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
+      }
+    },
   },
 };
 
