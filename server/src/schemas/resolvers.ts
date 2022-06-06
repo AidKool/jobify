@@ -42,6 +42,15 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
+    getAllJobs: async (_: unknown, __: unknown, context: { user: { _id: ObjectId } }) => {
+      try {
+        if (context.user) {
+          return await Job.find({ createdBy: context.user._id });
+        }
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
   },
   Mutation: {
     addUser: async (_: unknown, { name, email, password }: UserType) => {

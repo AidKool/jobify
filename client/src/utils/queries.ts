@@ -36,3 +36,16 @@ export const QUERY_LOGGED_IN_USER = gql`
     }
   }
 `;
+
+export const GET_ALL_JOBS = gql`
+  query getAllJobs {
+    getAllJobs {
+      _id
+      company
+      position
+      status
+      type
+      location
+    }
+  }
+`;

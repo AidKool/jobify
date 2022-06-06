@@ -29,6 +29,7 @@ const typeDefs = gql`
     me: User
     getAllUsers: [User]
     getUserById(_id: ID): User
+    getAllJobs: [Job]
   }
 
   type Mutation {
