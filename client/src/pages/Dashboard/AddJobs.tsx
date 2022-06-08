@@ -1,5 +1,5 @@
 import React from 'react';
-import JobsForm from '../../components/JobsForm';
+import { JobsForm } from '../../components';
 
 function AddJobs() {
   return <JobsForm />;

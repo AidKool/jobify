@@ -2,8 +2,7 @@ import React from 'react';
 import { Box, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAppContext } from '../../context/AppContext';
-import LargeLogo from '../Logo/LargeLogo';
-import NavLinks from '../NavLinks';
+import { LargeLogo, NavLinks } from '../../components';
 
 const style = {
   position: 'absolute',

@@ -1,8 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useAppContext } from '../../context/AppContext';
-import NavLinks from '../NavLinks';
-import LargeLogo from '../Logo/LargeLogo';
+import { NavLinks, LargeLogo } from '../../components';
 
 function BigSidebar() {
   const { showSidebar, toggleSidebar } = useAppContext();

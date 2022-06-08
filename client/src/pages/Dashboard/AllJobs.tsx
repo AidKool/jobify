@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { Grid, Box, Container } from '@mui/material';
 import { GET_ALL_JOBS } from '../../utils/queries';
-import Job from '../../components/Job';
+import { Job } from '../../components';
 
 type JobType = {
   company: string;

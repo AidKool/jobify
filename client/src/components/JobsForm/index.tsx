@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import { useQuery } from '@apollo/client';
 import { useAppContext } from '../../context/AppContext';
-import Alert from '../Alert';
+import { Alert } from '../../components';
 import { QUERY_LOGGED_IN_USER } from '../../utils/queries';
 
 function JobsForm() {

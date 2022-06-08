@@ -6,5 +6,20 @@ import ProtectedRoute from './ProtectedRoute';
 import Navbar from './Navbar';
 import SmallSidebar from './SmallSidebar';
 import BigSidebar from './BigSidebar';
+import NavLinks from './NavLinks';
+import JobsForm from './JobsForm';
+import Job from './Job';
 
-export { LandingPageAppBar, LargeLogo, SmallLogo, Alert, ProtectedRoute, Navbar, SmallSidebar, BigSidebar };
+export {
+  LandingPageAppBar,
+  LargeLogo,
+  SmallLogo,
+  Alert,
+  ProtectedRoute,
+  Navbar,
+  SmallSidebar,
+  BigSidebar,
+  NavLinks,
+  JobsForm,
+  Job,
+};
