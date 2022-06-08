@@ -54,6 +54,13 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
+    getJobById: async (_: unknown, { _id }: { _id: ObjectId }) => {
+      try {
+        return Job.findById(_id);
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    },
   },
   Mutation: {
     addUser: async (_: unknown, { name, email, password }: UserType) => {

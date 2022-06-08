@@ -14,7 +14,7 @@ type JobType = {
 };
 
 function Job({ company, location, position, status, type, _id }: JobType) {
-  const { removeJob } = useAppContext();
+  const { removeJob, editJob, showEditJobForm } = useAppContext();
 
   return (
     <Card>
@@ -63,6 +63,11 @@ function Job({ company, location, position, status, type, _id }: JobType) {
         </Grid>
         <Stack direction="row" spacing={2}>
           <Button
+            data-id={_id}
+            onClick={(event: React.SyntheticEvent<HTMLButtonElement>) => {
+              const jobId = event.currentTarget.dataset.id as string;
+              showEditJobForm(jobId);
+            }}
             type="button"
             variant="contained"
             sx={{ bgcolor: 'success.light', color: 'success.dark' }}

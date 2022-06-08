@@ -15,6 +15,10 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
+  SHOW_EDIT_FORM,
+  UPDATE_JOB_BEGIN,
+  UPDATE_JOB_SUCCESS,
+  UPDATE_JOB_ERROR,
 } from './actions';
 
 import { initialState } from './AppContext';
@@ -26,6 +30,7 @@ type StateType = {
   alertType: string;
   showSidebar: boolean;
   editJob: boolean;
+  editJobId: string;
 };
 
 type ActionType = {
@@ -87,10 +92,24 @@ function reducer(state: StateType, action: ActionType) {
       };
     case CREATE_JOB_ERROR:
       return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: 'There was an error' };
+    case UPDATE_JOB_BEGIN:
+      return { ...state, isLoading: true };
+    case UPDATE_JOB_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        showAlert: true,
+        alertType: 'success',
+        alertText: 'Job updated successfully',
+      };
+    case UPDATE_JOB_ERROR:
+      return { ...state, isLoading: false, showAlert: true, alertType: 'error', alertText: 'There was an error' };
     case TOGGLE_SIDEBAR:
       return { ...state, showSidebar: !state.showSidebar };
     case LOGOUT_USER:
       return { ...initialState };
+    case SHOW_EDIT_FORM:
+      return { ...state, editJob: true, editJobId: action.payload };
     default:
       return state;
   }

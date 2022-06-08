@@ -17,11 +17,12 @@ import {
   CREATE_JOB_BEGIN,
   CREATE_JOB_ERROR,
   CREATE_JOB_SUCCESS,
-  DELETE_JOB_BEGIN,
-  DELETE_JOB_ERROR,
-  DELETE_JOB_SUCCESS,
+  SHOW_EDIT_FORM,
+  UPDATE_JOB_BEGIN,
+  UPDATE_JOB_SUCCESS,
+  UPDATE_JOB_ERROR,
 } from './actions';
-import { ADD_USER, UPDATE_USER, LOGIN, CREATE_JOB, DELETE_JOB } from '../utils/mutations';
+import { ADD_USER, UPDATE_USER, LOGIN, CREATE_JOB, DELETE_JOB, EDIT_JOB } from '../utils/mutations';
 import AuthService from '../utils/auth';
 import reducer from './reducer';
 
@@ -32,6 +33,7 @@ type initialStateType = {
   alertType: string;
   showSidebar: boolean;
   editJob: boolean;
+  editJobId: string;
   displayAlert: () => void;
   registerUser: ({ name, email, password }: AuthUserType) => Promise<void>;
   loginUser: ({ email, password }: AuthUserType) => Promise<void>;
@@ -40,6 +42,8 @@ type initialStateType = {
   toggleSidebar: () => void;
   createJob: ({ position, company, location, status, type }: JobType) => Promise<void>;
   removeJob: (_id: string) => Promise<void>;
+  showEditJobForm: (editJobId: string) => void;
+  updateJob: ({ id, position, company, location, status, type }: JobType) => Promise<void>;
 };
 
 type AuthUserType = {
@@ -51,6 +55,7 @@ type AuthUserType = {
 };
 
 type JobType = {
+  id?: string;
   position: string;
   company: string;
   location: string;
@@ -65,6 +70,7 @@ const initialState = {
   alertType: '',
   showSidebar: false,
   editJob: false,
+  editJobId: '',
 };
 
 const AppContext = createContext({} as initialStateType);
@@ -84,6 +90,7 @@ function AppProvider({ children }: AppProviderTypeProps) {
   const [updateUser] = useMutation(UPDATE_USER);
   const [addJob] = useMutation(CREATE_JOB);
   const [deleteJob] = useMutation(DELETE_JOB);
+  const [editJob] = useMutation(EDIT_JOB);
 
   function displayAlert() {
     dispatch({ type: DISPLAY_ALERT, payload: '' });
@@ -206,6 +213,31 @@ function AppProvider({ children }: AppProviderTypeProps) {
     }
   }
 
+  function showEditJobForm(editJobId: string) {
+    dispatch({ type: SHOW_EDIT_FORM, payload: editJobId });
+  }
+
+  async function updateJob({ id, position, company, location, status, type }: JobType) {
+    dispatch({ type: UPDATE_JOB_BEGIN, payload: '' });
+    try {
+      const { data } = await editJob({
+        variables: {
+          id,
+          position,
+          company,
+          location,
+          status,
+          type,
+        },
+      });
+      dispatch({ type: UPDATE_JOB_SUCCESS, payload: '' });
+    } catch (error: any) {
+      dispatch({ type: UPDATE_JOB_ERROR, payload: '' });
+    } finally {
+      clearAlert();
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -218,6 +250,8 @@ function AppProvider({ children }: AppProviderTypeProps) {
         toggleSidebar,
         createJob,
         removeJob,
+        showEditJobForm,
+        updateJob,
       }}>
       {children}
     </AppContext.Provider>

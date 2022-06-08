@@ -49,3 +49,16 @@ export const GET_ALL_JOBS = gql`
     }
   }
 `;
+
+export const GET_JOB_BY_ID = gql`
+  query getJobById($id: ID) {
+    getJobById(_id: $id) {
+      _id
+      company
+      position
+      status
+      type
+      location
+    }
+  }
+`;
