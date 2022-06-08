@@ -65,3 +65,23 @@ export const DELETE_JOB = gql`
     }
   }
 `;
+
+export const EDIT_JOB = gql`
+  mutation editJob(
+    $company: String!
+    $position: String!
+    $location: String!
+    $status: String!
+    $type: String!
+    $id: ID
+  ) {
+    editJob(company: $company, position: $position, location: $location, status: $status, type: $type, _id: $id) {
+      _id
+      company
+      position
+      status
+      type
+      location
+    }
+  }
+`;

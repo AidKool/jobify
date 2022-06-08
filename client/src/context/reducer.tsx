@@ -25,6 +25,7 @@ type StateType = {
   alertText: string;
   alertType: string;
   showSidebar: boolean;
+  editJob: boolean;
 };
 
 type ActionType = {

@@ -11,7 +11,8 @@ type UserType = {
   password: string;
 };
 
-type AddJobType = {
+type JobType = {
+  _id?: string;
   company: string;
   position: string;
   location: string;
@@ -116,7 +117,7 @@ const resolvers = {
     },
     addJob: async (
       _: unknown,
-      { company, position, location, status, type }: AddJobType,
+      { company, position, location, status, type }: JobType,
       context: { user: { _id: ObjectId } }
     ) => {
       try {
@@ -134,6 +135,25 @@ const resolvers = {
       if (context.user) {
         try {
           return Job.findByIdAndDelete(_id);
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
+      }
+    },
+    editJob: async (
+      _: unknown,
+      { _id, company, position, location, status, type }: JobType,
+      context: { user: { _id: ObjectId } }
+    ) => {
+      if (context.user) {
+        try {
+          return Job.findByIdAndUpdate(_id, {
+            company,
+            position,
+            location,
+            status,
+            type,
+          });
         } catch (error: any) {
           throw new Error(error.message);
         }

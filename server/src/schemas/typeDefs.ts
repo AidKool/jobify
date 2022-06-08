@@ -38,6 +38,7 @@ const typeDefs = gql`
     updateUser(name: String!, lastName: String!, email: String!, location: String!): Auth
     addJob(company: String!, position: String!, location: String!, status: String!, type: String!): Job
     deleteJob(_id: ID): Job
+    editJob(_id: ID, company: String!, position: String!, location: String!, status: String!, type: String!): Job
   }
 `;
 

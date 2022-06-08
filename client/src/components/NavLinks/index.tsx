@@ -19,6 +19,7 @@ function NavLinks({ toggleSidebar }: NavLinksPropTypes) {
         return (
           <ListItem key={id} sx={{ width: '100%', paddingY: 0 }}>
             <NavLink
+              reloadDocument
               to={path}
               onClick={() => {
                 if (mdBreakPoint) {

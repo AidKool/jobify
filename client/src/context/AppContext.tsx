@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import { useMutation } from '@apollo/client';
 import {
   CLEAR_ALERT,
@@ -31,6 +31,7 @@ type initialStateType = {
   alertText: string;
   alertType: string;
   showSidebar: boolean;
+  editJob: boolean;
   displayAlert: () => void;
   registerUser: ({ name, email, password }: AuthUserType) => Promise<void>;
   loginUser: ({ email, password }: AuthUserType) => Promise<void>;
@@ -63,6 +64,7 @@ const initialState = {
   alertText: '',
   alertType: '',
   showSidebar: false,
+  editJob: false,
 };
 
 const AppContext = createContext({} as initialStateType);
@@ -72,7 +74,7 @@ function useAppContext() {
 }
 
 type AppProviderTypeProps = {
-  children: ReactNode;
+  children: JSX.Element;
 };
 
 function AppProvider({ children }: AppProviderTypeProps) {
