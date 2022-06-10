@@ -11,6 +11,7 @@ type JobType = {
   position: string;
   status: string;
   type: string;
+  createdAt: number;
   _id: string;
 };
 

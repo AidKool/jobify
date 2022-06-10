@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { Avatar, Button, Card, CardContent, CardHeader, Grid, Stack } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import WorkOutlineOutlinedIcon from '@mui/icons-material/WorkOutlineOutlined';
+import EventOutlinedIcon from '@mui/icons-material/EventOutlined';
+import { format } from 'date-fns';
 import { useAppContext } from '../../context/AppContext';
 
 type JobType = {
@@ -10,26 +12,46 @@ type JobType = {
   position: string;
   status: string;
   type: string;
+  createdAt: number;
   _id: string;
 };
 
-function Job({ company, location, position, status, type, _id }: JobType) {
+function Job({ company, location, position, status, type, createdAt, _id }: JobType) {
   const { removeJob, editJob, showEditJobForm } = useAppContext();
+  const date = format(new Date(createdAt / 1), 'do MMM yyyy');
+  console.log(createdAt);
+  console.log(date);
 
   return (
-    <Card>
+    <Card sx={{ textTransform: 'capitalize' }}>
       <CardHeader
         avatar={<Avatar sx={{ bgcolor: 'primary.main' }}>{company.substring(0, 1).toUpperCase()}</Avatar>}
         title={position}
         subheader={company}></CardHeader>
       <CardContent>
-        <Grid container spacing={1} marginBottom={2}>
+        <Grid container spacing={1} marginBottom={2} fontSize="0.9rem">
           <Grid item xs={12} sm={6} display="flex" alignItems="center">
             <Grid container spacing={1}>
               <Grid item>
                 <LocationOnOutlinedIcon />
               </Grid>
               <Grid item>{location}</Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={6} display="flex" alignItems="center">
+            <Grid container spacing={1}>
+              <Grid item>
+                <EventOutlinedIcon />
+              </Grid>
+              <Grid item>{date}</Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={6} display="flex" alignItems="center">
+            <Grid container spacing={1}>
+              <Grid item>
+                <WorkOutlineOutlinedIcon />
+              </Grid>
+              <Grid item>{type}</Grid>
             </Grid>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -50,14 +72,6 @@ function Job({ company, location, position, status, type, _id }: JobType) {
                 }}>
                 {status}
               </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12} sm={6} display="flex" alignItems="center">
-            <Grid container spacing={1}>
-              <Grid item>
-                <WorkOutlineOutlinedIcon />
-              </Grid>
-              <Grid item>{type}</Grid>
             </Grid>
           </Grid>
         </Grid>

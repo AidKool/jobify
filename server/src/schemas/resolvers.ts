@@ -47,8 +47,8 @@ const resolvers = {
     },
     getAllJobs: async (_: unknown, __: unknown, context: { user: { _id: ObjectId } }) => {
       try {
-        if (context.user) {
-          return await Job.find({ createdBy: context.user._id });
+        if (true) {
+          return await Job.find();
         }
       } catch (error: any) {
         throw new Error(error.message);

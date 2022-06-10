@@ -23,6 +23,7 @@ const typeDefs = gql`
     type: String
     location: String
     createdBy: User
+    createdAt: String
   }
 
   type Query {

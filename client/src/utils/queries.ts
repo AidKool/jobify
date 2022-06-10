@@ -46,6 +46,7 @@ export const GET_ALL_JOBS = gql`
       status
       type
       location
+      createdAt
     }
   }
 `;
