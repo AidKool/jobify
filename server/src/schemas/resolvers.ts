@@ -66,10 +66,29 @@ const resolvers = {
     showStats: async (_: unknown, __: unknown, context: { user: { _id: mongoose.Types.ObjectId } }) => {
       if (context.user) {
         try {
-          return await Job.aggregate([
+          const tempStats = await Job.aggregate([
             { $match: { createdBy: new mongoose.Types.ObjectId(context.user._id) } },
             { $group: { _id: '$status', count: { $sum: 1 } } },
           ]);
+          const stats: { _id: string; count: number }[] = [
+            { _id: 'pending', count: 0 },
+            { _id: 'interview', count: 0 },
+            { _id: 'declined', count: 0 },
+          ];
+          tempStats.forEach((record) => {
+            switch (record._id) {
+              case 'pending':
+                stats[0].count = record.count;
+                return;
+              case 'interview':
+                stats[1].count = record.count;
+                return;
+              default:
+                stats[2].count = record.count;
+                return;
+            }
+          });
+          return stats;
         } catch (error: any) {
           throw new Error(error.message);
         }

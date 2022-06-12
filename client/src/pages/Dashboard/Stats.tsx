@@ -9,9 +9,8 @@ function Stats() {
   const stats = data?.showStats || [
     { _id: 'pending', count: 0 },
     { _id: 'interview', count: 0 },
-    { _id: 'complete', count: 0 },
+    { _id: 'declined', count: 0 },
   ];
-  console.log(stats);
 
   type StatusType = {
     _id: string;
