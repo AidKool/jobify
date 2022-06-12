@@ -1,5 +1,6 @@
 import { AuthenticationError } from 'apollo-server-express';
-import { ObjectId } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
+
 import { Job, User } from '../models';
 import { signToken } from '../utils/auth';
 
@@ -18,6 +19,7 @@ type JobType = {
   location: string;
   status: string;
   type: string;
+  createdBy: string;
 };
 
 const resolvers = {
@@ -47,8 +49,8 @@ const resolvers = {
     },
     getAllJobs: async (_: unknown, __: unknown, context: { user: { _id: ObjectId } }) => {
       try {
-        if (true) {
-          return await Job.find();
+        if (context.user) {
+          return await Job.find({ createdBy: context.user._id });
         }
       } catch (error: any) {
         throw new Error(error.message);
@@ -59,6 +61,18 @@ const resolvers = {
         return Job.findById(_id);
       } catch (error: any) {
         throw new Error(error.message);
+      }
+    },
+    showStats: async (_: unknown, __: unknown, context: { user: { _id: mongoose.Types.ObjectId } }) => {
+      if (context.user) {
+        try {
+          return await Job.aggregate([
+            { $match: { createdBy: new mongoose.Types.ObjectId(context.user._id) } },
+            { $group: { _id: '$status', count: { $sum: 1 } } },
+          ]);
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
       }
     },
   },

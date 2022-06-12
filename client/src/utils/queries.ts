@@ -63,3 +63,12 @@ export const GET_JOB_BY_ID = gql`
     }
   }
 `;
+
+export const SHOW_STATS = gql`
+  query showStats {
+    showStats {
+      _id
+      count
+    }
+  }
+`;

@@ -26,12 +26,18 @@ const typeDefs = gql`
     createdAt: String
   }
 
+  type Stats {
+    _id: String
+    count: Int
+  }
+
   type Query {
     me: User
     getAllUsers: [User]
     getUserById(_id: ID): User
     getAllJobs: [Job]
     getJobById(_id: ID): Job
+    showStats: [Stats]
   }
 
   type Mutation {
