@@ -9,6 +9,7 @@ import BigSidebar from './BigSidebar';
 import NavLinks from './NavLinks';
 import JobsForm from './JobsForm';
 import Job from './Job';
+import StatusCard from './StatusCard';
 
 export {
   LandingPageAppBar,
@@ -22,4 +23,5 @@ export {
   NavLinks,
   JobsForm,
   Job,
+  StatusCard,
 };
