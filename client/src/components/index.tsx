@@ -10,6 +10,7 @@ import NavLinks from './NavLinks';
 import JobsForm from './JobsForm';
 import Job from './Job';
 import StatusCard from './StatusCard';
+import Chart from './Chart';
 
 export {
   LandingPageAppBar,
@@ -24,4 +25,5 @@ export {
   JobsForm,
   Job,
   StatusCard,
+  Chart,
 };

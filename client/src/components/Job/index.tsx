@@ -18,7 +18,7 @@ type JobType = {
 
 function Job({ company, location, position, status, type, createdAt, _id }: JobType) {
   const { removeJob, editJob, showEditJobForm } = useAppContext();
-  const date = format(new Date(createdAt / 1), 'do MMM yyyy');
+  const date = format(new Date(createdAt), 'do MMM yyyy');
   console.log(createdAt);
   console.log(date);
 

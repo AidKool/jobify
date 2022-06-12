@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Grid } from '@mui/material';
-import { StatusCard } from '../../components';
+import { Chart, StatusCard } from '../../components';
 import { useQuery } from '@apollo/client';
 import { MONTHLY_APPLICATIONS, SHOW_STATS } from '../../utils/queries';
 
@@ -12,8 +12,9 @@ function Stats() {
     { _id: 'interview', count: 0 },
     { _id: 'declined', count: 0 },
   ];
+  const monthlyApplications = applicationsData?.monthlyApplications || [];
 
-  console.log(applicationsData);
+  console.log(monthlyApplications);
 
   type StatusType = {
     _id: string;
@@ -22,7 +23,18 @@ function Stats() {
 
   return (
     <Box bgcolor="secondary.main">
-      <Container maxWidth={false} sx={{ minHeight: 'calc(100vh - 80px)', paddingTop: '3rem' }}>
+      <Container
+        maxWidth={false}
+        sx={{
+          minHeight: 'calc(100vh - 80px)',
+          paddingTop: '3rem',
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: 5,
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          boxSizing: 'border-box',
+        }}>
         <Grid container spacing={2} paddingX={2} display="flex" alignItems="center" justifyContent="center">
           {stats.map((status: StatusType) => {
             const { _id, count } = status;
@@ -33,6 +45,7 @@ function Stats() {
             );
           })}
         </Grid>
+        {monthlyApplications.length > 0 && <Chart monthlyApplications={monthlyApplications} />}
       </Container>
     </Box>
   );
