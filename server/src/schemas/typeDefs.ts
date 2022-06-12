@@ -31,6 +31,16 @@ const typeDefs = gql`
     count: Int
   }
 
+  type YearMonth {
+    year: String
+    month: String
+  }
+
+  type Applications {
+    _id: YearMonth
+    count: Int
+  }
+
   type Query {
     me: User
     getAllUsers: [User]
@@ -38,6 +48,7 @@ const typeDefs = gql`
     getAllJobs: [Job]
     getJobById(_id: ID): Job
     showStats: [Stats]
+    monthlyApplications: [Applications]
   }
 
   type Mutation {

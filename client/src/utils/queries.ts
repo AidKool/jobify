@@ -72,3 +72,15 @@ export const SHOW_STATS = gql`
     }
   }
 `;
+
+export const MONTHLY_APPLICATIONS = gql`
+  query monthlyApplications {
+    monthlyApplications {
+      _id {
+        year
+        month
+      }
+      count
+    }
+  }
+`;

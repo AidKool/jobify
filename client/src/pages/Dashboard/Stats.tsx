@@ -2,15 +2,18 @@ import React from 'react';
 import { Box, Container, Grid } from '@mui/material';
 import { StatusCard } from '../../components';
 import { useQuery } from '@apollo/client';
-import { SHOW_STATS } from '../../utils/queries';
+import { MONTHLY_APPLICATIONS, SHOW_STATS } from '../../utils/queries';
 
 function Stats() {
-  const { loading, data } = useQuery(SHOW_STATS);
-  const stats = data?.showStats || [
+  const { data: statsData } = useQuery(SHOW_STATS);
+  const { data: applicationsData } = useQuery(MONTHLY_APPLICATIONS);
+  const stats = statsData?.showStats || [
     { _id: 'pending', count: 0 },
     { _id: 'interview', count: 0 },
     { _id: 'declined', count: 0 },
   ];
+
+  console.log(applicationsData);
 
   type StatusType = {
     _id: string;

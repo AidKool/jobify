@@ -94,6 +94,32 @@ const resolvers = {
         }
       }
     },
+    monthlyApplications: async (_: unknown, __: unknown, context: { user: { _id: mongoose.Types.ObjectId } }) => {
+      if (context.user) {
+        try {
+          return await Job.aggregate([
+            { $match: { createdBy: new mongoose.Types.ObjectId(context.user._id) } },
+            {
+              $group: {
+                _id: {
+                  year: {
+                    $year: '$createdAt',
+                  },
+                  month: {
+                    $month: '$createdAt',
+                  },
+                },
+                count: { $sum: 1 },
+              },
+            },
+            { $sort: { '_id.year': -1, '_id.month': -1 } },
+            { $limit: 6 },
+          ]);
+        } catch (error: any) {
+          throw new Error(error.message);
+        }
+      }
+    },
   },
   Mutation: {
     addUser: async (_: unknown, { name, email, password }: UserType) => {
