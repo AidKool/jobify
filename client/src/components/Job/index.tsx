@@ -18,9 +18,7 @@ type JobType = {
 
 function Job({ company, location, position, status, type, createdAt, _id }: JobType) {
   const { removeJob, editJob, showEditJobForm } = useAppContext();
-  const date = format(new Date(createdAt), 'do MMM yyyy');
-  console.log(createdAt);
-  console.log(date);
+  const date = format(new Date(Number(createdAt)), 'do MMM yyyy');
 
   return (
     <Card sx={{ textTransform: 'capitalize' }}>
