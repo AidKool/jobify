@@ -4,6 +4,11 @@
   "private": true,
   "proxy": "http://localhost:4000/",
   "dependencies": {
+    "@types/jest": "^27.5.1",
+    "@types/jwt-decode": "^3.1.0",
+    "@types/node": "^16.11.36",
+    "@types/react": "^18.0.9",
+    "@types/react-dom": "^18.0.4",
     "@apollo/client": "^3.6.5",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -29,7 +34,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "tsc"
   },
   "browserslist": {
     "production": [
@@ -44,11 +50,6 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^27.5.1",
-    "@types/jwt-decode": "^3.1.0",
-    "@types/node": "^16.11.36",
-    "@types/react": "^18.0.9",
-    "@types/react-dom": "^18.0.4",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "eslint": "^8.15.0",
