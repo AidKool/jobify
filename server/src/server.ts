@@ -27,9 +27,9 @@ app.get('/', (_, res: Response) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'));
 });
 
-// app.get('*', (_, res: Response) => {
-//   res.sendFile(path.join(__dirname, '../../client/build/index.html'));
-// });
+app.get('*', (_, res: Response) => {
+  res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+});
 
 const startApolloServer = async () => {
   await server.start();
